@@ -273,51 +273,16 @@ class Particle:
 
     """
 
-    def __init__(
-            self,
+  
+   ##############
+
+    def __checkingAlias__(self,
             argument: Union[str, Integral],
             mass_numb: Integral = None,
-            Z: Integral = None):
-        """
-        Instantiate a `~plasmapy.particles.Particle` object and set private
-        attributes.
-        """
+                      Z: Integral = None,
+                      particle):
 
-        if not isinstance(argument, (Integral, np.integer, str, Particle)):
-            raise TypeError(
-                "The first positional argument when creating a "
-                "Particle object must be either an integer, string, or "
-                "another Particle object.")
-
-        # If argument is a Particle instance, then we will construct a
-        # new Particle instance for the same Particle (essentially a
-        # copy).
-
-        if isinstance(argument, Particle):
-            argument = argument.particle
-
-        if mass_numb is not None and not isinstance(mass_numb, Integral):
-            raise TypeError("mass_numb is not an integer")
-
-        if Z is not None and not isinstance(Z, Integral):
-            raise TypeError("Z is not an integer.")
-
-        self._attributes = defaultdict(lambda: None)
-        attributes = self._attributes
-
-        # Use this set to keep track of particle categories such as
-        # 'lepton' for use with the is_category method later on.
-
-        self._categories = set()
-        categories = self._categories
-
-        # If the argument corresponds to one of the case-sensitive or
-        # case-insensitive aliases for particles, return the standard
-        # symbol. Otherwise, return the original argument.
-
-        particle = _dealias_particle_aliases(argument)
-
-        if particle in _Particles.keys():  # special particles
+     if particle in _Particles.keys():  # special particles
 
             attributes['particle'] = particle
 
@@ -368,7 +333,13 @@ class Particle:
             if self.element and self._attributes['integer charge']:
                 categories.add('ion')
 
-            # Element properties
+##########################
+
+def __setElementProperties__( self,
+            argument: Union[str, Integral],
+            mass_numb: Integral = None,
+            Z: Integral = None)
+
 
             Element = _Elements[element]
 
@@ -409,6 +380,70 @@ class Particle:
 
             categories.add(Element['category'])
 
+
+
+
+
+##########################
+
+def __init__(
+            self,
+            argument: Union[str, Integral],
+            mass_numb: Integral = None,
+            Z: Integral = None):
+        """
+        Instantiate a `~plasmapy.particles.Particle` object and set private
+        attributes.
+        """
+
+        if not isinstance(argument, (Integral, np.integer, str, Particle)):
+            raise TypeError(
+                "The first positional argument when creating a "
+                "Particle object must be either an integer, string, or "
+                "another Particle object.")
+
+        # If argument is a Particle instance, then we will construct a
+        # new Particle instance for the same Particle (essentially a
+        # copy).
+        if isinstance(argument, Particle):
+            argument = argument.particle
+
+        if mass_numb is not None and not isinstance(mass_numb, Integral):
+            raise TypeError("mass_numb is not an integer")
+
+        if Z is not None and not isinstance(Z, Integral):
+            raise TypeError("Z is not an integer.")
+
+        self._attributes = defaultdict(lambda: None)
+        attributes = self._attributes
+
+        # Use this set to keep track of particle categories such as
+        # 'lepton' for use with the is_category method later on.
+ 
+        self._categories = set()
+        categories = self._categories
+
+        # If the argument corresponds to one of the case-sensitive or
+        # case-insensitive aliases for particles, return the standard
+        # symbol. Otherwise, return the original argument.
+
+        
+        
+        particle = _dealias_particle_aliases(argument)
+
+         __checkingAlias__(self,
+            argument: Union[str, Integral],
+                      mass_numb: Integral = None,
+                      Z: Integral = None,
+                      particle)
+        
+
+         __setElementProperties__(self,
+            argument: Union[str, Integral],
+                      mass_numb: Integral = None,
+                      Z: Integral = None,
+                      particle)
+
         if attributes['integer charge'] == 1:
             attributes['charge'] = const.e.si
         elif attributes['integer charge'] is not None:
@@ -428,6 +463,8 @@ class Particle:
                 categories.add('unstable')
 
         self.__name__ = self.__repr__()
+
+##########
 
     def __repr__(self) -> str:
         """
