@@ -332,7 +332,6 @@ def _checking_alias(self,
         if self.element and self._attributes['integer charge']:
             categories.add('ion')
 
-
 def _set_element_properties(self,
                             argument: Union[str, Integral],
                             mass_numb: Integral = None,
